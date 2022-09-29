@@ -64,3 +64,32 @@ services:
       - ${ROOT}/config/bazarr:/config # config files
       - ${ROOT}/data/movies:/movies # movies folder
       - ${ROOT}/data/tv:/tv # tv shows folder
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:develop
+    restart: unless-stopped
+    ports:
+      - 9696:9696
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/prowlarr:/config # config files
+
+  jellyfin:
+    container_name: jellyfin
+    image: lscr.io/linuxserver/jellyfin:latest
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    ports:
+      - 8096:8096
+    volumes:
+      - ${ROOT}/config/jellyfin:/config # plex database
+      - ${ROOT}/data/tv:/data/tvshows # tv shows
+      - ${ROOT}/data/movies:/data/movies # movies
