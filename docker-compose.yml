@@ -94,14 +94,3 @@ services:
       - ${ROOT}/data/tv:/data/tvshows # tv shows
       - ${ROOT}/data/movies:/data/movies # movies
 
-  organizr:
-    container_name: organizr
-    image: organizr/organizr
-    restart: unless-stopped
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-    ports:
-      - 80:80
-    volumes:
-      - ${ROOT}/config/organizr:/config # config files
